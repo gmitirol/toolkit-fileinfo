@@ -1,0 +1,35 @@
+{
+    "name": "gmi/toolkit-fileinfo",
+    "license": "LGPL-3.0-only",
+    "type": "library",
+    "description": "File information component",
+    "homepage": "https://github.com/gmitirol/toolkit-fileinfo",
+    "support": {
+        "issues": "https://github.com/gmitirol/toolkit-fileinfo/issues"
+    },
+    "authors": [
+        {
+        "name": "Andreas Erhard",
+        "email": "andreas.erhard@i-med.ac.at"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "ext-mbstring": "*",
+        "ext-posix": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.6"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Gmi\\Toolkit\\Fileinfo\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gmi\\Toolkit\\Fileinfo\\Tests\\": "tests"
+        }
+    }
+}

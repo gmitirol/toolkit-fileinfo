@@ -1,0 +1,27 @@
+stages:
+  - test
+
+test:
+  stage: test
+  image: $CI_REGISTRY/docker/alpine36-php71:v1
+  cache:
+    untracked: false
+    paths:
+      - $COMPOSER_HOME/cache
+  artifacts:
+    expire_in: 1 hour
+    name: "$CI_PROJECT_PATH_SLUG-$CI_PIPELINE_ID"
+    paths:
+      - build/coverage
+      - build/doc
+  variables:
+    COMPOSER_HOME: "$CI_PROJECT_DIR/build/.composer"
+  script:
+    - php-ext.sh enable 'xdebug'
+    - setup-token-auth.sh "$CI_JOB_TOKEN"
+    - composer install --no-progress
+    - phpcs $CI_PROJECT_DIR/src $CI_PROJECT_DIR/tests --standard=PSR2 -p
+    - php vendor/bin/phpunit $CI_PROJECT_DIR/tests --coverage-text -vv --colors=never
+    - sami update sami.php
+  tags:
+    - docker-std
