@@ -11,6 +11,8 @@
  */
 namespace Gmi\Toolkit\Fileinfo\Part;
 
+use Gmi\Toolkit\Fileinfo\Exception\FileUnreadableException;
+
 use SplFileInfo;
 
 /**
@@ -28,6 +30,8 @@ interface InfoFactoryInterface
      * @param SplFileInfo
      *
      * @return InfoPartInterface
+     *
+     * @throws FileUnreadableException if file metadata can't be read
      */
     public function create(SplFileInfo $fileInfo);
 }

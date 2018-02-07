@@ -11,6 +11,8 @@
  */
 namespace Gmi\Toolkit\Fileinfo\Part;
 
+use Gmi\Toolkit\Fileinfo\Exception\FileUnreadableException;
+
 use DateTime;
 use SplFileInfo;
 
@@ -45,9 +47,15 @@ class DateInfoFactory implements InfoFactoryInterface
         $now = new DateTime();
 
         $lastAccessed = DateTime::createFromFormat('U', $fileInfo->getATime());
+        if ($lastAccessed === false) {
+            throw new FileUnreadableException('Access date metadata can not be read!');
+        }
         $lastAccessed->setTimezone($now->getTimezone());
 
         $lastModified = DateTime::createFromFormat('U', $fileInfo->getMTime());
+        if ($lastModified === false) {
+            throw new FileUnreadableException('Modification date metadata can not be read!');
+        }
         $lastModified->setTimezone($now->getTimezone());
 
         return new DateInfo($lastAccessed, $lastModified);

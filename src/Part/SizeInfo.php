@@ -58,7 +58,7 @@ class SizeInfo implements InfoPartInterface
     {
         $format = ($format === null) ? '%01.2f %s' : (string) $format;
 
-        if ($si == false || strpos($forceUnit, 'i') !== false) {
+        if ($si === false || strpos($forceUnit, 'i') !== false) {
             // IEC prefixes (binary)
             $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
             $mod = 1024;
