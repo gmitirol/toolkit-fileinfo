@@ -88,6 +88,17 @@ class FileinfoTest extends TestCase
         $fileInfo->getPermissionInfo();
     }
 
+    public function testTypeInfoUnavailable()
+    {
+        $file = self::$testPath . '/testTypeInfoUnavailable.txt';
+        file_put_contents($file, 'testTypeInfoUnavailable');
+
+        $fileInfo = new FileInfo($file, FileInfo::INFO_NONE);
+        $this->expectException(UnavailableException::class);
+        $this->expectExceptionMessage('Type information is not available!');
+        $fileInfo->getTypeInfo();
+    }
+
     public function testPathInfo()
     {
         $file = self::$testPath . '/testPathInfo.txt';
@@ -124,14 +135,25 @@ class FileinfoTest extends TestCase
 
     public function testPermissionInfo()
     {
-        $file = self::$testPath . '/testDateInfo.txt';
-        file_put_contents($file, 'testDateInfo');
+        $file = self::$testPath . '/testPermissionInfo.txt';
+        file_put_contents($file, 'testPermissionInfo');
         @chmod($file, 0777);
 
         $fileInfo = new FileInfo($file, FileInfo::INFO_PERMISSION);
         $permissionInfo = $fileInfo->getPermissionInfo();
         $this->assertSame('rwxrwxrwx', $permissionInfo->getPermsFormatted());
         $this->assertSame('rwxrwxrwx', $fileInfo->perm()->getPermsFormatted());
+    }
+
+    public function testTypeInfo()
+    {
+        $file = self::$testPath . '/testTypeInfo.txt';
+        file_put_contents($file, 'testTypeInfo');
+
+        $fileInfo = new FileInfo($file, FileInfo::INFO_TYPE);
+        $typeInfo = $fileInfo->getTypeInfo();
+        $this->assertSame('text/plain', $typeInfo->getMimeType());
+        $this->assertSame('text/plain', $fileInfo->type()->getMimeType());
     }
 
     public function testReloadWithOtherPart()

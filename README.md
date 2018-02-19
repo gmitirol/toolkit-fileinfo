@@ -30,7 +30,7 @@ Installation
 The recommended way to install toolkit-fileinfo is via composer.
 ```json
 "require": {
-    "gmi/toolkit-fileinfo": "1.0.*"
+    "gmi/toolkit-fileinfo": "1.1.*"
 }
 ```
 
@@ -85,7 +85,7 @@ $fileInfo->date()->getLastModified();
  * Get information about file permissions:
  * @see Gmi\Toolkit\Fileinfo\Part\PermissionInfo
  */
- 
+
 $fileInfo->perm()->getOwner();
 // 0
 
@@ -94,6 +94,14 @@ $fileInfo->perm()->getOwnerName();
 
 $fileInfo->perm()->getPermsFormatted();
 // 'rw-r--r--'
+
+/**
+ * Get information about file type:
+ * @see Gmi\Toolkit\Fileinfo\Part\TypeInfo
+ */
+
+$fileInfo->type()->getMimeType();
+// 'application/pdf'
 
 /**
  * Reload file information:

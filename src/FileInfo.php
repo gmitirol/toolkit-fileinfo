@@ -21,6 +21,8 @@ use Gmi\Toolkit\Fileinfo\Part\PermissionInfo;
 use Gmi\Toolkit\Fileinfo\Part\PermissionInfoFactory;
 use Gmi\Toolkit\Fileinfo\Part\SizeInfo;
 use Gmi\Toolkit\Fileinfo\Part\SizeInfoFactory;
+use Gmi\Toolkit\Fileinfo\Part\TypeInfo;
+use Gmi\Toolkit\Fileinfo\Part\TypeInfoFactory;
 
 use SplFileInfo;
 
@@ -37,6 +39,7 @@ class FileInfo
     const INFO_SIZE = 2;
     const INFO_DATE = 4;
     const INFO_PERMISSION = 8;
+    const INFO_TYPE = 16;
     const INFO_ALL = 65535;
 
     /**
@@ -90,6 +93,16 @@ class FileInfo
     private $permissionInfoFactory;
 
     /**
+     * @var TypeInfo
+     */
+    private $typeInfo;
+
+    /**
+     * @var TypeInfoFactory
+     */
+    private $typeInfoFactory;
+
+    /**
      * Constructor.
      *
      * @param string                $file                  Path and filename of the file.
@@ -101,6 +114,7 @@ class FileInfo
      * @param SizeInfoFactory       $sizeInfoFactory       Factory for size information value objects.
      * @param DateInfoFactory       $dateInfoFactory       Factory for date information value objects.
      * @param PermissionInfoFactory $permissionInfoFactory Factory for permission information value objects.
+     * @param TypeInfoFactory       $typeInfoFactory       Factory for type information value objects.
      *
      * @throws FileUnreadableException
      */
@@ -110,7 +124,8 @@ class FileInfo
         PathInfoFactory $pathInfoFactory = null,
         SizeInfoFactory $sizeInfoFactory = null,
         DateInfoFactory $dateInfoFactory = null,
-        PermissionInfoFactory $permissionInfoFactory = null
+        PermissionInfoFactory $permissionInfoFactory = null,
+        TypeInfoFactory $typeInfoFactory = null
     ) {
         $this->file = $file;
         $this->infoParts = $infoParts;
@@ -119,6 +134,7 @@ class FileInfo
         $this->sizeInfoFactory = $sizeInfoFactory ?: new SizeInfoFactory();
         $this->dateInfoFactory = $dateInfoFactory ?: new DateInfoFactory();
         $this->permissionInfoFactory = $permissionInfoFactory ?: new PermissionInfoFactory();
+        $this->typeInfoFactory = $typeInfoFactory ?: new TypeInfoFactory();
 
         $this->reloadFileInformation();
     }
@@ -235,6 +251,30 @@ class FileInfo
     }
 
     /**
+     * Returns the type information.
+     *
+     * @return TypeInfo
+     *
+     * @throws UnavailableException
+     */
+    public function getTypeInfo()
+    {
+        if (null === $this->typeInfo) {
+            throw new UnavailableException('Type information is not available!');
+        }
+
+        return $this->typeInfo;
+    }
+
+    /**
+     * Alias for getTypeInfo().
+     */
+    public function type()
+    {
+        return $this->getTypeInfo();
+    }
+
+    /**
      * Reloads the file infos.
      *
      * @param int $infoParts
@@ -269,6 +309,10 @@ class FileInfo
 
         if ($this->infoParts & self::INFO_PERMISSION) {
             $this->permissionInfo = $this->permissionInfoFactory->create($fileInfo);
+        }
+
+        if ($this->infoParts & self::INFO_TYPE) {
+            $this->typeInfo = $this->typeInfoFactory->create($fileInfo);
         }
     }
 }
