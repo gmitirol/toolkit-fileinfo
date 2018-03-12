@@ -3,7 +3,7 @@ stages:
 
 test:
   stage: test
-  image: $CI_REGISTRY/docker/alpine36-php71:v1
+  image: $CI_REGISTRY/docker/alpine37-php71:v1
   cache:
     untracked: false
     paths:
@@ -24,4 +24,4 @@ test:
     - php vendor/bin/phpunit $CI_PROJECT_DIR/tests --coverage-text -vv --colors=never
     - sami update sami.php
   tags:
-    - docker-std
+    - shared
