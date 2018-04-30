@@ -3,7 +3,7 @@ stages:
 
 test:
   stage: test
-  image: $CI_REGISTRY/docker/alpine37-php71:v1
+  image: $CI_REGISTRY/docker/alpine37-php71:v2
   cache:
     untracked: false
     paths:
@@ -18,7 +18,7 @@ test:
     COMPOSER_HOME: "$CI_PROJECT_DIR/build/.composer"
   script:
     - php-ext.sh enable 'xdebug'
-    - setup-token-auth.sh "$CI_JOB_TOKEN"
+    - setup-gitlab-token-auth.sh "$CI_JOB_TOKEN" "$GITLAB_HOST"
     - composer install --no-progress
     - phpcs $CI_PROJECT_DIR/src $CI_PROJECT_DIR/tests --standard=PSR2 -p
     - php vendor/bin/phpunit $CI_PROJECT_DIR/tests --coverage-text -vv --colors=never
