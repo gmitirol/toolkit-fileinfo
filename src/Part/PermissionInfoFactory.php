@@ -34,7 +34,7 @@ class PermissionInfoFactory implements InfoFactoryInterface
         $ownerName = isset($ownerInfo['name']) ? $ownerInfo['name'] : (string) $owner;
 
         $group = $fileInfo->getGroup();
-        $groupInfo = posix_getpwuid($group);
+        $groupInfo = posix_getgrgid($group);
         $groupName = isset($groupInfo['name']) ? $groupInfo['name'] : (string) $group;
 
         return new PermissionInfo($owner, $ownerName, $group, $groupName, $fileInfo->getPerms());
