@@ -18,7 +18,7 @@ test:
     COMPOSER_HOME: "$CI_PROJECT_DIR/build/.composer"
   script:
     - php-ext.sh enable 'xdebug'
-    - setup-gitlab-token-auth.sh "$CI_JOB_TOKEN" "$GITLAB_HOST"
+    - setup-gitlab-token-auth.sh -- "$CI_JOB_TOKEN" "$GITLAB_HOST"
     - composer install --no-progress
     - phpcs $CI_PROJECT_DIR/src $CI_PROJECT_DIR/tests --standard=PSR2 -p
     - php vendor/bin/phpunit $CI_PROJECT_DIR/tests --coverage-text -vv --colors=never
