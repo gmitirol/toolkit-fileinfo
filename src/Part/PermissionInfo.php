@@ -128,21 +128,7 @@ class PermissionInfo implements InfoPartInterface
      */
     public function getPermsFormatted()
     {
-        $permstr = '';
-
-        $permstr .= $this->isOwnerReadable() ? 'r' : '-';
-        $permstr .= $this->isOwnerWritable() ? 'w' : '-';
-        $permstr .= $this->isOwnerExecutable() ? 'x' : '-';
-
-        $permstr .= $this->isGroupReadable() ? 'r' : '-';
-        $permstr .= $this->isGroupWritable() ? 'w' : '-';
-        $permstr .= $this->isGroupExecutable() ? 'x' : '-';
-
-        $permstr .= $this->isWorldReadable() ? 'r' : '-';
-        $permstr .= $this->isWorldWritable() ? 'w' : '-';
-        $permstr .= $this->isWorldExecutable() ? 'x' : '-';
-
-        return $permstr;
+        return $this->formatOwnerPerms() . $this->formatGroupPerms() . $this->formatWorldPerms();
     }
 
     /**
@@ -245,5 +231,50 @@ class PermissionInfo implements InfoPartInterface
     private function matchPerms($oct)
     {
         return ($this->perms & octdec($oct)) === octdec($oct);
+    }
+
+    /**
+     * Returns the formatted owner permissions of the file in rwx format.
+     *
+     * @return string
+     */
+    private function formatOwnerPerms()
+    {
+        $permstr = '';
+        $permstr .= $this->isOwnerReadable() ? 'r' : '-';
+        $permstr .= $this->isOwnerWritable() ? 'w' : '-';
+        $permstr .= $this->isOwnerExecutable() ? 'x' : '-';
+
+        return $permstr;
+    }
+
+    /**
+     * Returns the formatted group permissions of the file in rwx format.
+     *
+     * @return string
+     */
+    private function formatGroupPerms()
+    {
+        $permstr = '';
+        $permstr .= $this->isGroupReadable() ? 'r' : '-';
+        $permstr .= $this->isGroupWritable() ? 'w' : '-';
+        $permstr .= $this->isGroupExecutable() ? 'x' : '-';
+
+        return $permstr;
+    }
+
+    /**
+     * Returns the formatted world permissions of the file in rwx format.
+     *
+     * @return string
+     */
+    private function formatWorldPerms()
+    {
+        $permstr = '';
+        $permstr .= $this->isWorldReadable() ? 'r' : '-';
+        $permstr .= $this->isWorldWritable() ? 'w' : '-';
+        $permstr .= $this->isWorldExecutable() ? 'x' : '-';
+
+        return $permstr;
     }
 }
