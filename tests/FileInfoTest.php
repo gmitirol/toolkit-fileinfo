@@ -163,6 +163,6 @@ class FileinfoTest extends TestCase
 
         $fileInfo = new FileInfo($file, FileInfo::INFO_NONE);
         $fileInfo->reload(FileInfo::INFO_PATH);
-        $fileInfo->getPathInfo();
+        $this->assertNotNull($fileInfo->getPathInfo());
     }
 }
