@@ -7,3 +7,6 @@ php:
   - nightly
 before_script:
   - composer install
+matrix:
+  allow_failures:
+    - php: nightly
