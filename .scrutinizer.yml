@@ -9,6 +9,8 @@ build:
     environment:
         php:
             version: 5.6
+            pecl_extensions:
+                - xdebug-2.5.5
     tests:
         override:
             -
