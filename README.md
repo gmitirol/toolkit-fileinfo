@@ -16,7 +16,6 @@ File information is read during construction of the FileInfo instance or when
 For easier dependency injection in projects, a simple `FileInfoFactory` is provided.
 
 The current build status and code analysis can be found here:
-  * [Travis CI](https://travis-ci.org/gmitirol/toolkit-fileinfo)
   * [Scrutinizer CI](https://scrutinizer-ci.com/g/gmitirol/toolkit-fileinfo/)
 
 Requirements
